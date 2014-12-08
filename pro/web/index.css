@@ -1,15 +1,54 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+
 body {
 font: 12px/150% Arial,Verdana,"\5b8b\4f53";
 color: #666;
 }
 a{
   text-decoration:none;
-}
-#select .mt h1 {
-float: left;
-height: 30px;
-font: 400 15px/30px \5fae\8f6f\96c5\9ed1;
-color: #E4393C;
 }
 #select .mt {
 height: 30px;
@@ -18,6 +57,12 @@ border: 1px solid #ddd;
 border-bottom: 0;
 background: #F7F7F7;
 line-height: 30px;
+}
+#select .mt h1 {
+float: left;
+height: 30px;
+font: 400 15px/30px \5fae\8f6f\96c5\9ed1;
+color: #E4393C;
 }
 ol, ul {
 list-style: none;
@@ -28,9 +73,3 @@ height: 20px;
 margin-right: 32px;
 padding-top: 5px;
 }
-.attr .a-key {
-float: left;
-width: 100px;
-font-weight: 700;
-text-align: right;
-line-height: 25px;
