@@ -1,0 +1,36 @@
+body {
+font: 12px/150% Arial,Verdana,"\5b8b\4f53";
+color: #666;
+}
+a{
+  text-decoration:none;
+}
+#select .mt h1 {
+float: left;
+height: 30px;
+font: 400 15px/30px \5fae\8f6f\96c5\9ed1;
+color: #E4393C;
+}
+#select .mt {
+height: 30px;
+padding: 0 10px;
+border: 1px solid #ddd;
+border-bottom: 0;
+background: #F7F7F7;
+line-height: 30px;
+}
+ol, ul {
+list-style: none;
+}
+.f-list li {
+float: left;
+height: 20px;
+margin-right: 32px;
+padding-top: 5px;
+}
+.attr .a-key {
+float: left;
+width: 100px;
+font-weight: 700;
+text-align: right;
+line-height: 25px;
