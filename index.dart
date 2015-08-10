@@ -15,82 +15,92 @@ void main() {
   buttonReadDir = querySelector("#btn_readdir");
   buttonReadDir.onClick.listen(OnButtonReadDirClick);
 
+  UpdateStarsName();
+  UpdateTagsName();
   UpdateImages();
 
-  AnchorElement a = new AnchorElement();
-  var stardiv = querySelector("#star");
-  ImageElement img = new ImageElement();
-  img.width = 480;
-  img.height = (img.width * 1080 / 1920).toInt();
-  img.src = nexus.host + "/file?path=" + "E:\\z_study\\Caribbean 011615_074\\preview\\001.jpg";
-  img.marginEdge.left = 110;
-  //a.nodeValue = "asdf";
-  //img.src =nexus.host+"/file?path=" +"C:\\a a\\ss.png";
-  a.text = "baidu.com";
-  a.href = "http://baidu.com";
-//  stardiv.children.add(a);
-//  stardiv.children.add(img);
-//  stardiv.children.add(img.clone(true));
-//  stardiv.children.add(img.clone(true));
-//  stardiv.children.add(img.clone(true));
-//  stardiv.children.add(img.clone(true));
-//  stardiv.children.add(img.clone(true));
-//  stardiv.children.add(img.clone(true));
-//  stardiv.children.add(img.clone(true));
-//  stardiv.children.add(img.clone(true));
-//  stardiv.children.add(img.clone(true));
-//  stardiv.children.add(img.clone(true));
-//  stardiv.children.add(img.clone(true));
-//  stardiv.children.add(img.clone(true));
-  //String data = nexus.Select1("E:\\z_study\\study.db", "select id from filter where id like 't%'");
-  //result.innerHtml = data;
-
-  print("abc");
-  window.console.debug("aaa");
+  print("main() end");
 }
 
-//class VideoInfo {
-//  String folderPath;
-//  String id;
-//  List<String> previewPaths = new List<String>();
-//}
+void UpdateStarsName() {
+  var starsNameDiv = querySelector("#stars_name");
+  nexus.Select1("E:\\z_study\\study.db", "select distinct star from filter").then((String data) {
+    List dataList = JSON.decode(data);
+    for (var name in dataList) {
+      AnchorElement a = new AnchorElement();
+      a.href = "index.html?star=" + name;
+      a.innerHtml = name;
+      starsNameDiv.children.add(a);
+    }
+  });
+}
+
+void UpdateTagsName() {
+  var starsNameDiv = querySelector("#tags_name");
+  nexus.Select1("E:\\z_study\\study.db", "select distinct tags from filter").then((String data) {
+    List dataList = JSON.decode(data);
+    for (var name in dataList) {
+      AnchorElement a = new AnchorElement();
+      a.href = "index.html?tags=" + name;
+      a.innerHtml = name;
+      starsNameDiv.children.add(a);
+    }
+  });
+}
 
 void UpdateImages() {
-  //var imagesdiv = querySelector("#images");
-  //List<VideoInfo> videosInfo = new List<VideoInfo>();
+  if (Uri.base.queryParameters["star"] != null) {
+    nexus.Select1("E:\\z_study\\study.db", "select id from filter where star = '" + Uri.base.queryParameters["star"] + "'").then((String data) {
+      var imagesDiv = querySelector("#images");
+      imagesDiv.children.clear();
+      for (var v in JSON.decode(data)) {
+        AddImage("E:\\z_study", v);
+      }
+    });
+    return;
+  }
+  if (Uri.base.queryParameters["tags"] != null) {
+    nexus.Select1("E:\\z_study\\study.db", "select id from filter where tags = '" + Uri.base.queryParameters["tags"] + "'").then((String data) {
+      var imagesDiv = querySelector("#images");
+      imagesDiv.children.clear();
+      for (var v in JSON.decode(data)) {
+        AddImage("E:\\z_study", v);
+      }
+    });
+    return;
+  }
   nexus.ReadDir("E:\\z_study").then((String data) {
-    AfterReadDir("E:\\z_study",data);
+    List dataList = JSON.decode(data);
+    for (var d in dataList) {
+      if (d["IsDir"]) {
+        AddImage("E:\\z_study", d["Name"]);
+      }
+    }
   });
   nexus.ReadDir("F:\\z_study").then((String data) {
-    AfterReadDir("F:\\z_study",data);
+    List dataList = JSON.decode(data);
+    for (var d in dataList) {
+      if (d["IsDir"]) {
+        AddImage("F:\\z_study", d["Name"]);
+      }
+    }
   });
 }
 
-void AfterReadDir(String dir,String data) {
-  var imagesdiv = querySelector("#images");
-  List dataList = JSON.decode(data);
-  for (var d in dataList) {
-    if (d["IsDir"]) {
-      AnchorElement a = new AnchorElement();
-      a.href = "javascript:void(0)";
-      a.onClick.listen((event) =>
-      HttpRequest.getString(nexus.host + "/command?name=explorer.exe&arg=" +  dir+"\\"+ d["Name"])
-      );
-      a.title = d["Name"];
-      ImageElement img = new ImageElement();
-      img.width = 314;
-      img.height = (img.width * 1080 / 1920).toInt();
-      img.alt = d["Name"];
-      img.src = nexus.host + "/file?path=" + dir+"\\" + d["Name"] + "\\preview\\001.jpg";
-      a.children.add(img);
-      imagesdiv.children.add(a);
-      //VideoInfo info = new VideoInfo();
-      //info.folderPath = "E:\\z_study";
-      //info.id = d["Name"];
-      //nexus.ReadDir()
-      // videosInfo.add(info);
-    }
-  }
+void AddImage(String storagePath, String id) {
+  var imagesDiv = querySelector("#images");
+  AnchorElement a = new AnchorElement();
+  a.href = "javascript:void(0)";
+  a.onClick.listen((event) =>
+  HttpRequest.getString(nexus.host + "/command?name=explorer.exe&arg=" + storagePath + "\\" + id));
+  a.title = id;
+  ImageElement img = new ImageElement();
+  img.width = 314;
+  img.height = (img.width * 1080 / 1920).toInt();
+  img.alt = id;
+  img.src = nexus.host + "/file?path=" + storagePath + "\\" + id + "\\preview\\001.jpg";
+  a.children.add(img);
+  imagesDiv.children.add(a);
 }
 
 void OnButtonReadDirClick(MouseEvent event) {
